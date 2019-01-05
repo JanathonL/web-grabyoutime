@@ -1,0 +1,32 @@
+{% extends 'blank.html' %}
+{% block markdown %}{{ form.media }}{% endblock %}
+{% block title %}Create your Group{% endblock %}
+
+{% block content %}
+    <div class="ui text container">
+        <!--div class="ui large header">project: {{ course.title }}</div-->
+        <form class="ui large form" method="post" action={% url 'creategroup' %}>
+            {% csrf_token %}
+            <div class="ui stacked segment">
+                <div class="field">
+                    {% for field in form.visible_fields %}
+                    <p>{{field.label_tag}}</p>
+                    {{field}}
+                    {% endfor %}
+                    {% for field in form.hidden_fields %}
+                    {{field}}
+                    {% endfor %}    
+                </div>
+                <div class="ui fluid large teal submit button">submit</div>
+            </div>
+        </form>
+    </div>
+{% endblock %}
+
+{% block js %}
+<script type="text/javascript">
+    $(document).ready(function () {$(".ui.form").form();});
+</script>
+</script>
+{% endblock %}
+

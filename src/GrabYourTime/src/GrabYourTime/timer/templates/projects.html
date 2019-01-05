@@ -1,0 +1,20 @@
+{% extends 'blank.html' %}
+
+{% block title %}Project{% endblock %}
+
+{% block content%}
+    <div class="ui text container">
+        <div class="ui huge header">My projects</div>
+        {% if group %}
+            <div class="ui header">Search projects belong to 
+                <a href="{% url 'detail' group.pk %}" target="_blank">{{ group.title }}</a> 
+            </div>
+        {% elif query %}
+            <div class="ui header">Search projects with keyword: {{ query }}</div>
+        {% endif %}
+        {% for project in p.object_list %}
+            {% include 'pices/project.html' %}
+        {% endfor %}
+        {% include 'pices/paginator.html' %}
+    </div>
+{% endblock %}

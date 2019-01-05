@@ -1,0 +1,14 @@
+{% extends 'base_message.html' %}
+{% block title %}Timer-Activate{% endblock title %}
+{% block message %}
+{% if active %}
+Thanks for confirming your email. Now you can login your account by the link below.
+{% else %}
+Sorry, your link is invalid!
+{% endif %}
+{% endblock message %}
+{% block link %}
+<br>
+
+<a href={% url 'login' %}>to login page</a> 
+{% endblock link %}

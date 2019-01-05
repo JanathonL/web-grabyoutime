@@ -1,0 +1,118 @@
+{% extends 'blank.html' %}
+
+{% block title %}Timer -- inbox{% endblock %}
+
+{% block content %}
+
+    <div class="ui text container">
+        <div class="ui top attached tabular menu">
+            <a class="item active" data-tab="first">Unread messages</a>
+            <a class="item" data-tab="second">Readed messages</a>
+        </div>
+        <div class="ui bottom attached tab segment active" data-tab="first">
+            <div class="ui middle aligned divided list">
+                 {{un}}
+                {% for un in notifications.unread %}
+                    {% if "join group" in un.description %}
+                        <div class="item">
+                            <div class="right floated content">
+                                <div class="ui buttons">
+                                    <a href="{% url 'notifications:mark_as_read' un.slug %}?next={% url 'inbox' %}">
+                                        <button class="ui button">already read</button>
+                                    </a>
+                                    <div class="or" data-text="or"></div>
+                                    <a href="{% url 'accept_join_group' un.description %}">
+                                        <button class="ui positive button">accept</button>
+                                    </a>
+                                    <div class="or" data-text="or"></div>
+                                    <a href="{% url 'rej_join_group' un.description %}">
+                                        <button class="ui primary button">refuse</button>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="content">
+                                <a href="{% url 'user_detail' un.actor %}" target="_blank">{{ un.actor }}</a>
+                                {{ un.verb | safe }}({{ un.timesince }} ago)
+                            </div>
+                        </div>
+                    {% elif  "join project" in un.description %}
+                        <div class="item">
+                            <div class="right floated content">
+                                <div class="ui buttons">
+                                    <a href="{% url 'notifications:mark_as_read' un.slug %}?next={% url 'inbox' %}">
+                                        <button class="ui button">already read</button>
+                                    </a>
+                                    <div class="or" data-text="or"></div>
+                                    <a href="{% url 'accept_join_group' un.description %}">
+                                        <button class="ui positive button">accept</button>
+                                    </a>
+                                    <div class="or" data-text="or"></div>
+                                    <a href="{% url 'rej_join_group' un.description %}">
+                                        <button class="ui primary button">refuse</button>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="content">
+                                <a href="{% url 'user_detail' un.actor %}" target="_blank">{{ un.actor }}</a>
+                                {{ un.verb | safe }}({{ un.timesince }} ago)
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="item">
+                            <div class="right floated content">
+                                <div class="ui buttons">
+                                    <a href="{% url 'notifications:mark_as_read' un.slug %}?next={% url 'inbox' %}">
+                                        <button class="ui button">already read</button>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="content">
+                                <a href="{% url 'user_detail' un.actor %}" target="_blank">{{ un.actor }}</a>
+                                {{ un.verb }}: {{ un.description }}  ({{ un.timesince }} ago)
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+        <div class="ui bottom attached tab segment" data-tab="second">
+            <div class="ui middle aligned divided list">
+                {% for un in notifications.read %}
+                    <div class="item">
+                        <div class="right floated content">
+                            <a href="{% url 'notifications:delete' un.slug %}?next={% url 'inbox' %}">
+                                <button class="ui red button">delete</button>
+                            </a>
+                        </div>
+                        <div class="content">
+                            <a href="{% url 'user_detail' un.actor %}" target="_blank">{{ un.actor }}</a>
+                            {{ un.verb | safe }}:
+                            {% if not un.target %}{{ un.description }}{% endif %}({{ un.timesince }} ago)
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <h3>Your group member</h3>
+    {% for group in p.object_list %}
+        <div class="ui left aligned segment">
+            <a > Manger: </a>
+            <a href="{% url 'user_detail' group.manager.username %}">
+                        {{ group.manager.username }}
+            </a>
+            <a > User: </a>
+            {%for member in group.members.all %}
+                {% if member.username != group.manager.username%}
+                     <a href="{% url 'user_detail' member.username %}">
+                            {{ member.username }}
+                    </a>
+                {% endif %}
+            {% endfor %}
+        </div>
+    {% endfor %}
+{% endblock %}
+
+{% block js %}
+    <script type="text/javascript">$(document).ready(function () {$('.menu .item').tab();});</script>
+{% endblock %}

@@ -1,0 +1,71 @@
+{% extends 'blank.html' %} {% load static %} {% block localjs %}
+<script src="{% static " js/global.js " %}"></script>
+
+ {% endblock %} {% block title %}Timer{% endblock %}
+{% block content %}
+<div class="row">
+    <div class="col-lg-4">
+      <div class="card mb-3">
+        <div class="card-header">
+          <i class="fas fa-chart-bar"></i>
+            Statistics for the past week</div>
+        <div class="card-body">
+          <canvas id="myBarChart" width="100%" height="50"></canvas>
+        </div>
+        <div class="card-footer small text-muted">Updated at {{time}}</div>
+      </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="card mb-3">
+          <div class="card-header">
+            <i class="fas fa-chart-bar"></i>
+              Statistics for each project</div>
+          <div class="card-body">
+            <canvas id="myBarChart2" width="100%" height="50"></canvas>
+          </div>
+          <div class="card-footer small text-muted">Updated at {{time}}</div>
+        </div>
+    </div>
+    <div class="col-lg-4">
+      <div class="card mb-3">
+        <div class="card-header">
+          <i class="fas fa-chart-pie"></i>
+           Status for each project</div>
+        <div class="card-body">
+          <canvas id="myPieChart" width="100%" height="50"></canvas>
+        </div>
+        <div class="card-footer small text-muted">Updated at {{time}}</div>
+      </div>
+    </div>
+</div>
+  <div class="card mb-3">
+    <div class="card-header">
+      <i class="fas fa-chart-area"></i>
+      Statistics for the past year</div>
+    <div class="card-body">
+      <canvas id="myAreaChart" width="100%" height="30"></canvas>
+    </div>
+    <div class="card-footer small text-muted">Updated at {{time}}</div>
+  </div>
+
+    <script type="text/javascript" >
+    var tableData = {{ table_data|safe}}
+    var project_label_data = {{ project_label|safe }}
+    var project_data = {{ project_data|safe }}
+    var project_data_max = {{ project_data_max |safe }}
+    var week_data = {{ week_data|safe }}
+    var week_data_max = {{ week_data_max|safe }}
+    var year_data = {{ year_data|safe }}
+    var max_data = {{ max_data|safe }}
+    var week_label = {{ week_label|safe}}
+    var year_label = {{ year_label|safe }}
+    </script>
+    <!-- Page level plugin JavaScript-->
+    <script src="{% static "vendor/chart.js/Chart.min.js" %}"></script>
+
+    <!-- Demo scripts for this page-->
+    <script src="{% static "js/demo/chart-area-demo.js" %}"></script>
+    <script src="{% static "js/demo/chart-bar-demo.js" %}"></script>
+    <script src="{% static "js/demo/chart-bar-demo2.js" %}"></script>
+    <script src="{% static "js/demo/chart-pie-demo.js" %}"></script>
+{% endblock %}

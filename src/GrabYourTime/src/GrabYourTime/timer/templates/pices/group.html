@@ -1,0 +1,15 @@
+<div class="ui left aligned segment">
+    <a href="{% url 'detail' group.pk %}">{{ group.title }}</a>
+    <div class="ui right">manager：
+    	<a href="{% url 'user_detail' group.manager.username %}">
+    		{{ group.manager.username }}
+    	</a>
+    </div>
+   	{% if group not in in_groups %}
+   		<div class="ui buttons">
+        <a href="{% url 'join_group' group.id %}"><button class="ui primary button">Join Group</button></a>
+    	</div>
+   	{% endif %}
+   	<!-- TODO -->
+   	
+</div>

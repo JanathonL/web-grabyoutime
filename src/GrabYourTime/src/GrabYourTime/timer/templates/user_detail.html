@@ -1,0 +1,56 @@
+{% extends 'blank.html' %}
+
+{% block title %} {{ user.username }} user information{% endblock %}
+
+{% block content %}
+    <div class="ui text container">
+        <h2 class="ui huge header">{{ user.username }}</h2>
+        <div class="ui modal">
+            <i class="close icon"></i>
+            <div class="header">
+                send message to {{ user.username }}
+            </div>
+            <form class="ui form" method="post">
+                {% csrf_token %}
+                <div class="field">
+                    <div class="ui left icon input">
+                        <i class="user icon"></i><input name="content" placeholder="content" type="text">
+                    </div>
+                </div>
+                <div class="actions">
+                    <div class="ui submit button">OK</div>
+                </div>
+            </form>
+        </div>
+        {% if request.user.is_authenticated and request.user != user %}
+            <button id="send_message" class="ui button">send timer message</button>
+        {% endif %}
+        <h3 class="ui header">{% if groups %}joined Group:{% else %}has not joined any group now{% endif %}</h3>
+        {% for group in groups %}
+            <div class="ui left aligned segment">
+                <a href="{% url 'detail' group.pk %}">{{ group.title }}</a>
+                <div class="ui right">manager：
+                    <a href="{% url 'user_detail' group.manager.username %}">
+                        {{ group.manager.username }}
+                    </a>
+                </div>
+                   {% if group not in in_groups %}
+                       <div class="ui buttons">
+                    <a href="{% url 'join_group' group.id %}"><button class="ui primary button">Join Group</button></a>
+                    </div>
+                   {% endif %}
+            </div>
+        {% endfor %}
+        <div class="ui header divider"></div>
+        <h3 class="ui header">{% if groups %}have projects: {% else %}has no projects yet{% endif %}</h3>
+        {% for project in projects %}{% include 'pices/project.html' %}{% endfor %}
+    </div>
+
+{% endblock %}
+
+{% block js %}
+    <script type="text/javascript">
+        $('.ui.modal').modal('attach events', '#send_message', 'show');
+        $(".ui.form").form();
+    </script>
+{% endblock %}

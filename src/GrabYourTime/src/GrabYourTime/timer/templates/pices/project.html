@@ -1,0 +1,12 @@
+<div class="ui left aligned segment">
+    <a href="{% url 'project_detail' project.pk %}">{{ project.name }}</a>
+       belong to group:    
+       <a href="{% url 'detail' project.belong_id %}">   {{ project.belong.title       }} </a>
+       manager: 
+       <a href="{% url 'user_detail' project.creator.username %}">{{ project.creator.username }}</a>
+    	{% if project not in in_projects %}
+            <div class="ui buttons">
+                <a href="{% url 'join_project' project.id %}"><button class="ui primary button">Join Project</button></a>
+            </div>
+        {% endif %}
+</div>

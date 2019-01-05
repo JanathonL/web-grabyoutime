@@ -1,0 +1,19 @@
+{% extends 'blank.html' %} {% load static %} {% block localjs %}
+<script src="{% static " js/global.js " %}"></script> {% endblock %} {% block title %}Timer{% endblock %} {% block content %}
+<div class="post">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card-body">
+                <h5 class="card-title1">
+                    Username: {{user.username}}
+                    <br> Firstname:{{user.first_name}}
+                    <br> Lastname:{{user.last_name}}
+                    <br> Projects:project
+                    <br> Bio:bio
+                    <br>
+                </h5>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

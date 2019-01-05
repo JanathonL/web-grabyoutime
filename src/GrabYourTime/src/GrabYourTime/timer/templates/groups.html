@@ -1,0 +1,26 @@
+{% extends 'blank.html' %}
+
+{% block title %}Groups{% endblock %}
+
+{% block content %}
+    <div class="ui text container">
+        <div class="ui huge header">All The Groups</div>
+        <a href={% url 'creategroup' %} class="btn btn-success">Create Group</a>        
+        {% for group in p.object_list %}
+        <div class="ui left aligned segment">
+                <a href="{% url 'detail' group.pk %}">{{ group.title }}</a>
+                <div class="ui right">manager：
+                    <a href="{% url 'user_detail' group.manager.username %}">
+                        {{ group.manager.username }}
+                    </a>
+                </div>
+                   {% if group not in in_groups %}
+                       <div class="ui buttons">
+                    <a href="{% url 'join_group' group.id %}"><button class="ui primary button">Join Group</button></a>
+                    </div>
+                   {% endif %}
+            </div>            
+        {% endfor %}
+        <br>
+    </div>
+{% endblock %}

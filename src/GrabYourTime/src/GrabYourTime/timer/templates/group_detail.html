@@ -1,0 +1,44 @@
+{% extends 'blank.html' %}
+{% load markdown_deux_tags %}
+{% block title %}{{ group.title }} - group details{% endblock %}
+
+{% block content %}
+    <div class="ui text container">
+        <div class="ui huge header">{{ group.title }}</div>
+        <div class="ui container">manager: {{ group.manager.username }}</div>
+        <div class="ui tiny header">{% if not group.detail %}no {% endif %}description</div>
+        <div class="ui divider"></div>
+        <p>{{ group.detail | markdown }}</p>
+        <div class="ui divider"></div>
+        <h3 class="ui header">Member</h3>
+        <div class="ui divider"></div>
+        <div class="ui horizontal divided list">
+            {% for member in group.members.all %}
+                <div class="item">
+                    <img class="ui avatar image" src="/static/images/logo.png">
+                    <div class="content">
+                        <div class="header">{{ member.username }}</div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="ui divider"></div>
+        {% if is_author_manager %}
+        <div class="ui buttons">
+            <a href="{% url 'create_project' group.id %}"><button class="ui positive button">Create Project</button></a>
+        </div>
+        
+        {% endif %}
+        {% if in_group %}
+            <div class="ui divider"></div>
+            {% for project in in_projects %}
+                you are in<a href="{% url 'project_detail' project.id %}"><div class="ui green button">{{ project.name }}</div></a>
+            {% endfor %}
+            <div class="ui divider"></div>
+            <div class="ui tiny header">{% if not projects %}no{% endif %}project</div>
+            {% for project in projects %}
+            {% include 'pices/project.html' %}    
+            {% endfor %}
+        {% endif %}
+    </div>
+{% endblock %}

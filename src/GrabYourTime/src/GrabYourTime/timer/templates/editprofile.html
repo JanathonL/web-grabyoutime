@@ -1,0 +1,78 @@
+{% extends 'blank.html' %} {% load static %} {% block localjs %}
+<script src="{% static " js/global.js " %}"></script> 
+{% endblock %} 
+{% block title %}Timer{% endblock %} 
+{% block content %}
+<div class="post">
+  <div class="pcol-75">
+    <div class="pcontainer">
+    <form enctype="multipart/form-data" action="{% url 'editprofile'%}" method="POST">
+        {% csrf_token %} {% for error in form.non_field_errors %}
+        <p style="color: red">
+            {{ error }}
+        </p>
+        {% endfor %}
+        <h3>Personal Information</h3>
+        <div class="row ml-3">
+            <span class="wrapper">
+                {% for field in form.visible_fields %}
+                <div class="form-group row">   
+                    <div class="col-md-7 mb-3 col-md-offset-12">
+                        <label class="form-control is-valid" required="required">
+                            {{field.label_tag}}
+                        </label>
+                    </div>
+                    <div class="col-sm-5 mb-3 col-md-offset-12 class="form-control">
+                        {{field}} {{field.errors}}
+                    </div>
+                </div>
+                {% endfor %}
+
+                <h3>Setting</h3>
+                <div class="pcol-50"> 
+                        <div class="prow">
+                         
+                                  <label for="cname" style="padding-right: 30px"><i class="fa fa-user-clock  "></i> Message
+                                      <a class="switch" href={% url 'mute_txt' %}>
+                                            <input type="checkbox">
+                                              <div class = "row">
+                                                <span class="slider round"></span>
+                                              </div>
+                                      </a>
+                                  </label>
+                                  <label for="cname" style="padding-right: 30px"><i class="fa fa-user-clock"></i> Inbox
+                                    <a class="switch" href={% url 'mute_inbox' %}>
+                                          <input type="checkbox">
+                                            <div class = "row">
+                                              <span class="slider round"></span>
+                                            </div>
+                                    </a>
+                                  </label>
+                                  <label for="cname" style="padding-right: 30px" ><i class="fa fa-user-clock"></i> Email
+                                    <a class="switch" href={% url 'mute_email' %}>
+                                          <input type="checkbox">
+                                            <div class = "row">
+                                              <span class="slider round"></span>
+                                            </div>
+                                    </a>
+                                   </label>
+                         
+                         
+                                <label for="cname" style="padding-right: 30px"><i class="fa fa-key">
+                                    <a class="btn btn-link" href= {% url 'password_reset' %} >ChangePassword</a></i>
+                                </label>
+                         
+                        </div>
+                </div>
+      
+                <div class="col-sm-5 mb-3">
+                        <button type="submit" class="btn btn-outline-warning ">Updates</button>
+                </div>
+            </span>
+        </div>
+    </form>
+  </div>
+ </div>
+</div>
+
+{% endblock %}
